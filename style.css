@@ -1,0 +1,343 @@
+/*
+Project: Notes Application
+Author: Bruna del Mar
+Description: This stylesheet provides styles for a responsive notes app,
+designed for easy navigation and readability on mobile devices.
+The application enables users to add, categorize, and organize notes in a visually clean interface.
+Date: October 2024
+*/
+
+/* Color Variables */
+:root {
+    --background-color: #1b1b1b;
+    --text-color: #f0f0f0;
+    --secondary-text-color: #2c2c2c;
+    --button-bg-color: #a5a5a5;
+    --button-hover-color: #838282;
+    --note-bg-color: #ECDFCC;
+    --note-text-color: #1b1b1b;
+    --highlight-bg-color-1: #8967B3;
+    --highlight-bg-color-2: #CB80AB;
+    --highlight-bg-color-3: #E6D9A2;
+    --add-button-bg-color: #1b1b1b;
+}
+
+
+/* Global Reset and Basic Styling */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Core body styling for better readability and overall layaout */
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+/* Main container for the app */
+.container-inicio {
+    width: 100%;
+    max-width: 400px; /* Optimal for mobile-first design */
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.greeting {
+    margin-left: 3px;
+    font-size: 1.8rem;
+    color: var(--text-color);
+}
+
+/* Style for the categories section */
+.categories {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scrolling if content overflows */
+    scroll-snap-type: x mandatory;  /* Ensures smooth scroll stops at each button */
+    -ms-overflow-style: none; /* For Internet Explore and Edge */
+    scrollbar-width: none; /* For Firefox */
+}
+.categories::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari and Opera */
+}
+
+.categories button {
+    padding: 4px 10px;
+    min-width: 80px; 
+    max-width: 150px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    text-align: center;
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+    scroll-snap-align: start; /* Aligns each button at the start of the viewport */
+    white-space: nowrap; /* Prevents line breaks within buttons */
+    overflow: hidden; /* Hides overflowed text */
+    text-overflow: ellipsis; /* Shows "..." when text is too long */
+    flex-shrink: 0;
+}
+
+.categories button:hover {
+    background-color: #838282;
+}
+
+h1 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 4rem;
+    line-height: 4rem;
+    text-align: start;
+}
+
+
+/* Container notes styles */
+.notes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+}
+
+/* Style for the notes */
+.note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: var(--note-bg-color);
+    color: var(--note-text-color);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.note:hover {
+    transform: scale(1.05);
+}
+
+.note-content {
+    flex-grow: 1;
+}
+
+.note-name {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: var(--note-text-color);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Colors for different notes */
+.first-note {
+    background-color: var(--highlight-bg-color-1);
+}
+.second-note {
+    background-color: var(--highlight-bg-color-2);
+}
+.third-note {
+    background-color: var(--highlight-bg-color-3);
+}
+
+.note-date {
+    font-size: 0.9rem;
+    font-weight: 100;
+    color: var(--secondary-text-color);
+    margin-top: 0.2rem;
+}
+
+/* Button to open the note */
+.note-button {
+    background-color: var(--text-color);
+    color: var(--note-text-color);
+    font-size: 1.5rem;
+    border: 3px solid var(--note-text-color);
+    border-radius: 30%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Styles for the add new note button */
+.add-note {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;   
+    background-color: var(--add-button-bg-color);
+    color: var(--text-color);
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.add-note:hover {
+    background-color: var(--button-hover-color);
+    transform: scale(1.3);
+}
+
+/* Note view container */
+fieldset{
+    display: contents;
+}
+legend {
+    display: none;
+}
+
+.note-view {
+    display: none;
+}
+
+.note-view {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    gap: 1rem;
+}
+
+.back-button {
+    background-color: #333;
+    color: #ddd;
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 50%;
+    border: none;
+    padding: 7px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    cursor: pointer;
+}
+
+form {
+    width: 100%;
+}
+
+/* Dropdown menu */
+.category-dropdown {
+    position: relative;
+    display: flex;
+    margin-top: 10px;
+}
+
+.category-button {
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.category-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.category-menu li {
+    padding: 0.3rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.category-menu li:hover {
+    background-color: var(--button-hover-color);
+}
+
+/* Title input */
+.title-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.title-container input {
+    border: 2px solid transparent;
+    color: #000;
+    font-size: 2rem;
+    outline: none;
+}
+
+/* Color selection buttons */
+.color-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 20px;
+}
+
+.color-options {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.color-button {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.text-container {
+    margin-top: 15px;
+    padding: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.text-area {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #5b5b5ba0;
+    border-radius: 7px;
+    font-size: 1rem;
+}
