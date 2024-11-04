@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Organizelt</title>
+</head>
+<body>
+    <div class="container-inicio">
+        <!-- Greeting message -->
+            <p class="greeting">Hello!</p>
+    
+            <!-- Categories section with buttons -->
+            <div class="categories">
+                <button data-category="all" aria-label="Task all">All</button>
+                <button data-category="toDo" aria-label="Task to do">To do</button>
+                <button data-category="important" aria-label="Task important">Important</button>
+                <button data-category="ideas" aria-label="Task ideas">Ideas</button>
+                <button data-category="buy" aria-label="Task buy">Buy</button>
+                <button data-category="gymRoutine" aria-label="Task gym routine">Gym routine</button>
+            </div>
+
+            <!-- Main Tittle -->
+            <h1>Focus<br>& Organizelt</h1>
+
+            <!-- Notes Container -->
+            <div class="notes-container">
+                <!-- First Note -->
+                <div class="note first-note">
+                  <div class="note-content">  
+                    <h3 class="note-name">My Note</h3>
+                    <p class="note-date">Last modified: <span class="modification-date">25-06-2024</span></p>
+                  </div>  
+                  <button class="note-button" aria-label="Open note">></button>
+                </div>
+                <!-- Second Note-->
+                <div class="note second-note">
+                  <div class="note-content">  
+                    <h3 class="note-name">Note</h3>
+                    <p class="note-date">Last modified: <span class="modification-date">01-06-1995</span></p>
+                  </div>  
+                  <button class="note-button" aria-label="Open note">></button>
+                </div>
+                <!-- Third Note -->
+                <div class="note third-note">
+                  <div class="note-content">  
+                    <h3 class="note-name">Note</h3>
+                    <p class="note-date">Last modified: <span class="modification-date">01-03-2021</span></p>
+                  </div>  
+                  <button class="note-button" aria-label="Open note">></button>
+                </div>
+
+                <!-- Button to add a new note -->
+                <button class="add-note" aria-label="Add new note">+</button>
+            </div>
+    </div>
+
+    <!-- Note interfaz -->
+    <div class="note-view">
+      <!-- Close button -->
+      <button class="back-button" onclick="backToTop()" aria-label="Close note view">&times;</button>
+
+      <!-- Note form -->
+      <form id="note-form" onsubmit="return false;">
+    
+        <!-- Title -->
+        <fieldset>
+         <legend>Title</legend>
+         <div class="title-container">
+           <label for="note-title-input">Title: </label>
+           <input type="text" id="note-title-input" name="noteTitle" placeholder="Write the title of your note..." required>
+         </div>
+        </fieldset>
+
+        <!-- Category Selection -->
+        <fieldset>
+          <legend>Category</legend>
+          <div class="category-dropdown">
+            <button type="button" class="category-button" onclick="toggleCategoryMenu()">Category</button>
+            <ul id="category-menu" class="category-menu">
+              <li onclick="selectCategory('ToDo')">To Do</li>
+              <li onclick="selectCategory('Important')">Important</li>
+              <li onclick="selectCategory('Ideas')">Ideas</li>
+              <li onclick="selectCategory('Buy')">Buy</li>
+              <li onclick="selectCategory('GymRoutine')">Gym Routine</li>
+              <li onclick="selectCategory('Others')">Others</li>
+            </ul>
+          </div>
+        </fieldset>
+
+        <!-- Color Selection -->
+        <fieldset>
+          <legend>Color Options</legend>
+          <div class="color-container">
+           <div class="color-options">
+              <button class="color-button" style="background-color: #8967B3;" data-color="#8967B3"></button>
+              <button class="color-button" style="background-color: #CB80AB;" data-color="#CB80AB"></button>
+              <button class="color-button" style="background-color: #E6D9A2;" data-color="#E6D9A2"></button>
+              <button class="color-button" style="background-color: #E8B86D;" data-color="#E8B86D"></button>
+              <button class="color-button" style="background-color: #C96868;" data-color="#C96868"></button>
+              <button class="color-button" style="background-color: #8CC0DE;" data-color="#8CC0DE"></button>
+              <button class="color-button" style="background-color: #A1D6B2;" data-color="#A1D6B2"></button>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Note Content Text Area -->
+        <fieldset>
+          <legend>Note Content</legend>
+          <div class="text-container">
+            <textarea class="text-area" name="noteTextArea" id="note-text-area" placeholder="Write your note..."></textarea>
+          </div>
+        </fieldset>
+
+      </form>
+    </div>
+
+    
+
+  <script src="script.js" defer></script>  
+</body>
+</html>
