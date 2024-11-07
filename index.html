@@ -32,8 +32,8 @@
                     <h3 class="note-name">My Note</h3>
                     <p class="note-date">Last modified: <span class="modification-date">25-06-2024</span></p>
                   </div>
-                  <button class="delete-button" aria-label="Delete note">
-                    <svg ></svg>
+                  <button class="delete-button" aria-label="Delete note" data-index="${index}">
+                    <img src="icons/delete.svg" alt="Delete">
                   </button>  
                   <button class="note-button" aria-label="Open note">></button>
                 </div>
@@ -42,7 +42,10 @@
                   <div class="note-content">  
                     <h3 class="note-name">Note</h3>
                     <p class="note-date">Last modified: <span class="modification-date">01-06-1995</span></p>
-                  </div>  
+                  </div>
+                  <button class="delete-button" aria-label="Delete note" data-index="${index}">
+                    <img src="icons/delete.svg" alt="Delete">
+                  </button>  
                   <button class="note-button" aria-label="Open note">></button>
                 </div>
                 <!-- Third Note -->
@@ -51,12 +54,24 @@
                     <h3 class="note-name">Note</h3>
                     <p class="note-date">Last modified: <span class="modification-date">01-03-2021</span></p>
                   </div>  
+                  <button class="delete-button" aria-label="Delete note" data-index="${index}">
+                    <img src="icons/delete.svg" alt="Delete">
+                  </button>
                   <button class="note-button" aria-label="Open note">></button>
                 </div>
             </div>
               <!-- Button to add a new note -->
               <button class="add-note" aria-label="Add new note">+</button>
     </div>
+
+    <!-- Box to confirm note deletion-->
+     <div id="confirm-dialog" class="confirm-dialog hidden">
+      <div class="confirm-dialog-content">
+        <p>Are you sure you want to delete this note?</p>
+        <button id="confirm-yes" class="confirm-button">Yes</button>
+        <button id="confirm-no" class="confirm-button">No</button>
+      </div>
+     </div>
 
     <!-- Note interfaz -->
     <div class="note-view">

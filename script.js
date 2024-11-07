@@ -1,14 +1,10 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    console.log("Página cargada correctamente"); // Agrega este para confirmar carga
+    console.log("Página cargada correctamente");
+
     const containerInicio = document.querySelector('.container-inicio');
     const noteView = document.querySelector('.note-view');
     const addNoteButton = document.querySelector('.add-note');
-    const notesContainer = document.querySelector('.notes-container'); // Obtengo el contenedor de notas
-    
-    // Array para almacenar las notas
-    let notes = JSON.parse(localStorage.getItem('notes')) || [];
-    
-    
+    const notesContainer = document.querySelector('.notes-container');
 
     // Obtengo los elementos de note-view y del formulario
     const backButton = document.querySelector('.back-button');
@@ -19,21 +15,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const colorButtons = document.querySelectorAll('.color-button');
     const textArea = document.getElementById('note-text-area');
 
+    const confirmDialog = document.getElementById('confirm-dialog');
+    const confirmYesButton = document.getElementById('confirm-yes');
+    const confirmNoButton = document.getElementById('confirm-no');
+
+    // Array para almacenar las notas
+    let notes = JSON.parse(localStorage.getItem('notes')) || [];
+    let noteToDeleteIndex = null;
+
     // Esconder la vista de la nota al cargar la pagina
-    
-    //aseguro qe el contenedor de inicio se muestre
-    console.log('mostrando el container Inicio al cargar la pagina');
     containerInicio.style.display = 'flex';
     noteView.style.display = 'none';
-
-    
 
     // Funcion para abrir la vista de la nota
     function openNoteView() {
         containerInicio.style.display = 'none';
         noteView.style.display = 'flex';
-        
-        // Resetear el formulario
         resetForm();
     }
 
@@ -59,7 +56,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
 
         if(noteData.title !== '' || noteData.content !== '') {
-            notes.unshift(noteData); // Añadir al inicio del array
+            notes.unshift(noteData);
             localStorage.setItem("notes", JSON.stringify(notes));
         }
     }
@@ -79,7 +76,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             <div class="note-content">  
                     <h3 class="note-name">${note.title}</h3>
                     <p class="note-date">Last modified: <span class="modification-date">${note.date}</span></p>
-                  </div>  
+                  </div>
+                  <button class="delete-button" aria label="Delete note" data-index="${index}">
+                    <img src="icons/delete.svg" alt="Delete">
+                  </button>    
                   <button class="note-button" aria-label="Open note" data-index="${index}">></button>
                   `;
                   notesContainer.appendChild(noteElement);
@@ -88,8 +88,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
                   noteElement.querySelector('.note-button').addEventListener('click', () => {
                     openExistingNote(index);
                   });
-        });
-    }
+
+                  // Evento para eliminar la nota al hacer click en el icono basurero
+                  noteElement.querySelector('.delete-button').addEventListener('click', ()=> {
+                    noteToDeleteIndex = index;
+                    confirmDialog.classList.remove('hidden');
+                  });
+            });
+        }
+
+    // Funcion para eliminar la nota confirmada
+    confirmYesButton.addEventListener('click', ()=> {
+        if(noteToDeleteIndex !== null) {
+            notes.splice(noteToDeleteIndex, 1);
+            localStorage.setItem("notes", JSON.stringify(notes));
+            displayNotes();
+            noteToDeleteIndex = null;
+        }
+        confirmDialog.classList.add('hidden');
+    });
+
+    // Funcion para cancelar la eliminacion de la nota
+    confirmNoButton.addEventListener('click', ()=> {
+        noteToDeleteIndex = null;
+        confirmDialog.classList.add('hidden');
+    });
 
     // Funcion para abrir una nota existente
     function openExistingNote(index) {
@@ -165,5 +188,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Mostrar las notas al cargar la pagina
     displayNotes();
-    
 });
