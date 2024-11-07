@@ -31,7 +31,10 @@
                   <div class="note-content">  
                     <h3 class="note-name">My Note</h3>
                     <p class="note-date">Last modified: <span class="modification-date">25-06-2024</span></p>
-                  </div>  
+                  </div>
+                  <button class="delete-button" aria-label="Delete note">
+                    <svg ></svg>
+                  </button>  
                   <button class="note-button" aria-label="Open note">></button>
                 </div>
                 <!-- Second Note-->
@@ -50,10 +53,9 @@
                   </div>  
                   <button class="note-button" aria-label="Open note">></button>
                 </div>
-
-                <!-- Button to add a new note -->
-                <button class="add-note" aria-label="Add new note">+</button>
             </div>
+              <!-- Button to add a new note -->
+              <button class="add-note" aria-label="Add new note">+</button>
     </div>
 
     <!-- Note interfaz -->
@@ -77,7 +79,7 @@
         <fieldset>
           <legend>Category</legend>
           <div class="category-dropdown">
-            <button type="button" class="category-button" onclick="toggleCategoryMenu()">Category</button>
+            <button type="button" class="category-button">Category</button>
             <ul id="category-menu" class="category-menu">
               <li onclick="selectCategory('ToDo')">To Do</li>
               <li onclick="selectCategory('Important')">Important</li>
