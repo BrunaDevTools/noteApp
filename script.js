@@ -18,10 +18,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const confirmDialog = document.getElementById('confirm-dialog');
     const confirmYesButton = document.getElementById('confirm-yes');
     const confirmNoButton = document.getElementById('confirm-no');
+    const noteDeleteButton = document.querySelector('.note-header .delete-button')
 
     // Array para almacenar las notas
     let notes = JSON.parse(localStorage.getItem('notes')) || [];
-    let noteToDeleteIndex = null;
+    let noteToDeleteId = null;
+    let currentNoteId = null; // ID de la nota actual
 
     // Esconder la vista de la nota al cargar la pagina
     containerInicio.style.display = 'flex';
@@ -31,7 +33,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function openNoteView() {
         containerInicio.style.display = 'none';
         noteView.style.display = 'flex';
-        resetForm();
     }
 
     // Funcion para regresar a la pagina de inicio y guardar la nota
@@ -43,11 +44,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         containerInicio.style.display = 'flex';
         noteView.style.display = 'none';
         displayNotes(); // Mostrar las notas actualizadas
+        currentNoteId = null; // Resetear el ID de la nota actual
+    }
+
+    function generateUniqueId(){
+        return '_' + Math.random().toString(36).substr(2, 9);
     }
 
     // Funcion para guardar los datos de la nota
     function saveNoteData() {
         const noteData = {
+            id: currentNoteId || generateUniqueId(),
             title: titleInput.value.trim(),
             category: categoryButton.innerText.trim(),
             color: getSelectedColor(),
@@ -56,7 +63,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
 
         if(noteData.title !== '' || noteData.content !== '') {
-            notes.unshift(noteData);
+            if(currentNoteId !== null) {
+                const index = notes.findIndex(note => note.id === currentNoteId);
+                notes[index] = noteData // Actualiza la nota existente
+            } else {
+                notes.unshift(noteData); // Añadir nota nueva
+            }
             localStorage.setItem("notes", JSON.stringify(notes));
         }
     }
@@ -68,7 +80,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Funcion para mostrar las notas en la pagina de inicio
     function displayNotes() {
         notesContainer.innerHTML = ''; // Limpiar el contenido antes de añadir las notas
-        notes.forEach((note, index) => {
+        notes.forEach((note) => {
             const noteElement = document.createElement('div');
             noteElement.classList.add('note');
             noteElement.style.backgroundColor = note.color;
@@ -77,52 +89,69 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     <h3 class="note-name">${note.title}</h3>
                     <p class="note-date">Last modified: <span class="modification-date">${note.date}</span></p>
                   </div>
-                  <button class="delete-button" aria label="Delete note" data-index="${index}">
+                  <button class="delete-button" aria-label="Delete note" data-id="${note.id}">
                     <img src="icons/delete.svg" alt="Delete">
-                  </button>    
-                  <button class="note-button" aria-label="Open note" data-index="${index}">></button>
+                  </button>
                   `;
                   notesContainer.appendChild(noteElement);
 
-                  // Evento para abrir la nota al hacer click en el boton
-                  noteElement.querySelector('.note-button').addEventListener('click', () => {
-                    openExistingNote(index);
+                  // Evento para abrir la nota al hacer click en la nota
+                  noteElement.addEventListener('click', () => {
+                    openExistingNote(note.id);
                   });
 
                   // Evento para eliminar la nota al hacer click en el icono basurero
-                  noteElement.querySelector('.delete-button').addEventListener('click', ()=> {
-                    noteToDeleteIndex = index;
+                  noteElement.querySelector('.delete-button').addEventListener('click', (event)=> {
+                    event.stopPropagation();
+                    noteToDeleteId = note.id;
                     confirmDialog.classList.remove('hidden');
                   });
             });
         }
 
+        // Evento para eliminar la nota desde la vista de la nota
+        noteDeleteButton.addEventListener('click', () => {
+            noteToDeleteId = currentNoteId;
+            confirmDialog.classList.remove('hidden');
+        });
+
     // Funcion para eliminar la nota confirmada
     confirmYesButton.addEventListener('click', ()=> {
-        if(noteToDeleteIndex !== null) {
-            notes.splice(noteToDeleteIndex, 1);
-            localStorage.setItem("notes", JSON.stringify(notes));
-            displayNotes();
-            noteToDeleteIndex = null;
-        }
-        confirmDialog.classList.add('hidden');
+        if(noteToDeleteId !== null) {
+            const index = notes.findIndex(note => note.id === noteToDeleteId);
+            if (index !== -1) {
+                notes.splice(index, 1);
+                localStorage.setItem("notes", JSON.stringify(notes));
+                displayNotes();
+                noteToDeleteId = null;
+                if (containerInicio.style.display === 'none') {
+                    closeNoteView();
+                    }
+                }
+            }
+            confirmDialog.classList.add('hidden');
     });
 
     // Funcion para cancelar la eliminacion de la nota
     confirmNoButton.addEventListener('click', ()=> {
-        noteToDeleteIndex = null;
+        noteToDeleteId = null;
         confirmDialog.classList.add('hidden');
     });
 
     // Funcion para abrir una nota existente
-    function openExistingNote(index) {
-        const note = notes[index];
+    function openExistingNote(id) {
+        const note = notes.find(note => note.id === id);
+        if (note) {
         titleInput.value = note.title;
         categoryButton.innerText = note.category;
         setSelectedColor(note.color);
         textArea.value = note.content;
         noteView.style.backgroundColor = note.color;
+        currentNoteId = id; // Establecer el ID de la nota actual
         openNoteView();
+        } else {
+            alert('Note not found or has been deleted.');
+        }
     }
 
     // Funcion auxiliar para obtener el color seleccionado
@@ -155,10 +184,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
         colorButtons.forEach(button => button.classList.remove("selected"));
         textArea.value = '';
         noteView.style.backgroundColor = '';
+        currentNoteId = null; // Reseteo el ID de la nota
     }
 
     // Evento para el boton "add-note" que abre la vista de nota
-    addNoteButton.addEventListener('click', openNoteView);
+    addNoteButton.addEventListener('click', ()=> {
+        resetForm();
+        currentNoteId = null; // Aseguro que no estoy editando una nota existente
+        openNoteView();
+    });
 
     // Evento para el boton "back-button" que guarda y cierra la vista de nota
     backButton.addEventListener('click', closeNoteView);

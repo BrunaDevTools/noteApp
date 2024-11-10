@@ -34,8 +34,7 @@
                   </div>
                   <button class="delete-button" aria-label="Delete note" data-index="${index}">
                     <img src="icons/delete.svg" alt="Delete">
-                  </button>  
-                  <button class="note-button" aria-label="Open note">></button>
+                  </button>
                 </div>
                 <!-- Second Note-->
                 <div class="note second-note">
@@ -45,8 +44,7 @@
                   </div>
                   <button class="delete-button" aria-label="Delete note" data-index="${index}">
                     <img src="icons/delete.svg" alt="Delete">
-                  </button>  
-                  <button class="note-button" aria-label="Open note">></button>
+                  </button>
                 </div>
                 <!-- Third Note -->
                 <div class="note third-note">
@@ -57,7 +55,6 @@
                   <button class="delete-button" aria-label="Delete note" data-index="${index}">
                     <img src="icons/delete.svg" alt="Delete">
                   </button>
-                  <button class="note-button" aria-label="Open note">></button>
                 </div>
             </div>
               <!-- Button to add a new note -->
@@ -76,8 +73,12 @@
     <!-- Note interfaz -->
     <div class="note-view">
       <!-- Close button -->
-      <button class="back-button" onclick="backToTop()" aria-label="Close note view">&times;</button>
-
+      <div class="note-header">
+        <button class="delete-button" aria-label="Delete note" data-index="${index}">
+          <img src="icons/delete.svg" alt="Delete">
+        </button>
+        <button class="back-button" aria-label="Close note view">&times;</button>
+      </div>
       <!-- Note form -->
       <form id="note-form" onsubmit="return false;">
     

@@ -230,21 +230,6 @@ h1 {
     background-color: #cc0000;
 }
 
-/* Button to open the note */
-.note-button {
-    background-color: var(--text-color);
-    color: var(--note-text-color);
-    font-size: 1.5rem;
-    border: 3px solid var(--note-text-color);
-    border-radius: 30%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 /* Styles for the add new note button */
 .add-note {   
     position: absolute;
@@ -293,6 +278,13 @@ legend {
     max-width: 400px;
     height: 100vh;
     gap: 1rem;
+}
+
+.note-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .back-button {
