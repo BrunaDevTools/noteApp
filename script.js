@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if(isNoteModified()){
             saveNoteData();
         }
-        //saveNoteData(); // Guardar los cambios antes de regresar
         containerInicio.style.display = 'flex';
         noteView.style.display = 'none';
         displayNotes(); // Mostrar las notas actualizadas
@@ -147,6 +146,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         setSelectedColor(note.color);
         textArea.value = note.content;
         noteView.style.backgroundColor = note.color;
+        // Mover la nota al principio del array
+        const index = notes.findIndex(note => note.id === id);
+        if (index !== -1) {
+            notes.splice(index, 1);
+            notes.unshift(note);
+            localStorage.setItem("notes", JSON.stringify(notes));
+        }
         currentNoteId = id; // Establecer el ID de la nota actual
         openNoteView();
         } else {
