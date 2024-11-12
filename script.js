@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const noteView = document.querySelector('.note-view');
     const addNoteButton = document.querySelector('.add-note');
     const notesContainer = document.querySelector('.notes-container');
+    const categoriesContainer = document.querySelector('.categories');
 
     // Obtengo los elementos de note-view y del formulario
     const backButton = document.querySelector('.back-button');
@@ -20,8 +21,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const confirmNoButton = document.getElementById('confirm-no');
     const noteDeleteButton = document.querySelector('.note-header .delete-button')
 
+
     // Array para almacenar las notas
     let notes = JSON.parse(localStorage.getItem('notes')) || [];
+    let categories = ['All', 'To do', 'Important', 'Ideas', 'Buy', 'Gym routine', 'Others'];
     let noteToDeleteId = null;
     let currentNoteId = null; // ID de la nota actual
 
@@ -45,6 +48,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         displayNotes(); // Mostrar las notas actualizadas
         currentNoteId = null; // Resetear el ID de la nota actual
     }
+  
 
     function generateUniqueId(){
         return '_' + Math.random().toString(36).substr(2, 9);
@@ -52,10 +56,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Funcion para guardar los datos de la nota
     function saveNoteData() {
+        const category = categoryButton.innerText.trim() === 'Category' ? 'Others' : categoryButton.innerText.trim();
+
         const noteData = {
             id: currentNoteId || generateUniqueId(),
             title: titleInput.value.trim(),
-            category: categoryButton.innerText.trim(),
+            category: category,
             color: getSelectedColor(),
             content: textArea.value.trim(),
             date: new Date().toLocaleDateString(),
@@ -77,9 +83,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     // Funcion para mostrar las notas en la pagina de inicio
-    function displayNotes() {
+    function displayNotes(filteredCategory = 'All') {
         notesContainer.innerHTML = ''; // Limpiar el contenido antes de añadir las notas
-        notes.forEach((note) => {
+        const notesToDisplay = filteredCategory === 'All' ? notes : notes.filter(note => note.category === filteredCategory);
+       
+        notesToDisplay.forEach((note) => {
             const noteElement = document.createElement('div');
             noteElement.classList.add('note');
             noteElement.style.backgroundColor = note.color;
@@ -107,6 +115,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
                   });
             });
         }
+
+    // Funcion para mostrar las categorias y añadir eventos click    
+    function displayCategories() {
+            categoriesContainer.innerHTML = '';
+            categories.forEach((category) => {
+                const categoryElement = document.createElement('button');
+                categoryElement.classList.add('category-filter');
+                categoryElement.setAttribute('data-category', category);
+                categoryElement.innerText = category;
+                categoriesContainer.appendChild(categoryElement);
+    
+                categoryElement.addEventListener('click', ()=> {
+                    const activeCategory = document.querySelector('.category-filter.active');
+                    if (activeCategory) {
+                        activeCategory.classList.remove('active');
+                    }
+                    categoryElement.classList.add('active');
+                    displayNotes(category);
+                });
+            });
+        }
+
+        displayCategories();
+        displayNotes();
 
         // Evento para eliminar la nota desde la vista de la nota
         noteDeleteButton.addEventListener('click', () => {
@@ -226,6 +258,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    // Mostrar las notas al cargar la pagina
-    displayNotes();
+    
+    displayCategories();
+    displayNotes(); // Mostrar las notas al cargar la pagina
 });

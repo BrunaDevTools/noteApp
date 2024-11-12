@@ -13,12 +13,13 @@
     
             <!-- Categories section with buttons -->
             <div class="categories">
-                <button data-category="all" aria-label="Task all">All</button>
-                <button data-category="toDo" aria-label="Task to do">To do</button>
-                <button data-category="important" aria-label="Task important">Important</button>
-                <button data-category="ideas" aria-label="Task ideas">Ideas</button>
-                <button data-category="buy" aria-label="Task buy">Buy</button>
-                <button data-category="gymRoutine" aria-label="Task gym routine">Gym routine</button>
+                <button data-category="All" aria-label="Task all">All</button>
+                <button data-category="To do" aria-label="Task to do">To do</button>
+                <button data-category="Important" aria-label="Task important">Important</button>
+                <button data-category="Ideas" aria-label="Task ideas">Ideas</button>
+                <button data-category="Buy" aria-label="Task buy">Buy</button>
+                <button data-category="Gym routine" aria-label="Task gym routine">Gym routine</button>
+                <button data-category="Others" aria-label="Task others notes">Others</button>
             </div>
 
             <!-- Main Tittle -->
@@ -97,12 +98,12 @@
           <div class="category-dropdown">
             <button type="button" class="category-button">Category</button>
             <ul id="category-menu" class="category-menu">
-              <li onclick="selectCategory('ToDo')">To Do</li>
-              <li onclick="selectCategory('Important')">Important</li>
-              <li onclick="selectCategory('Ideas')">Ideas</li>
-              <li onclick="selectCategory('Buy')">Buy</li>
-              <li onclick="selectCategory('GymRoutine')">Gym Routine</li>
-              <li onclick="selectCategory('Others')">Others</li>
+              <li data-category="To do">To do</li>
+              <li data-category="Important">Important</li>
+              <li data-category="Ideas">Ideas</li>
+              <li data-category="Buy">Buy</li>
+              <li data-category="Gym routine">Gym routine</li>
+              <li data-category="Others">Others</li>
             </ul>
           </div>
         </fieldset>
