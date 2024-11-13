@@ -8,9 +8,14 @@
 </head>
 <body>
     <div class="container-inicio">
-        <!-- Greeting message -->
+      <div class="header">  
+      <!-- Greeting message -->
             <p class="greeting">Hello!</p>
-    
+      <!-- Setting button -->
+       <button id="setting-button-inicio" class="setting-button" aria-label="Setting">
+        <img src="icons/setting-white.svg" alt="setting button">
+       </button>
+      </div>
             <!-- Categories section with buttons -->
             <div class="categories">
                 <button data-category="all" aria-label="Task all">All</button>
@@ -104,6 +109,10 @@
               <li onclick="selectCategory('GymRoutine')">Gym Routine</li>
               <li onclick="selectCategory('Others')">Others</li>
             </ul>
+            <!-- Setting button -->
+             <button id="setting-button-note" class="setting-button-note" aria-label="Setting">
+              <img src="icons/setting-white.svg" alt="setting button">
+             </button>
           </div>
         </fieldset>
 

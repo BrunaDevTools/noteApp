@@ -54,11 +54,31 @@ body, html {
     overflow: hidden;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .greeting {
     margin-left: 3px;
     font-size: 1.8rem;
     color: var(--text-color);
 }
+
+.setting-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.setting-button img {
+    width: 1.5rem;
+}
+
 
 /* Style for the categories section */
 .categories {
@@ -312,11 +332,33 @@ form {
     gap: 15px;
 }
 
+/* Setting note button */
+.setting-button-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    padding: 15px;
+    border: none;
+    background-color: #333;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.setting-button-note img {
+    width: 1.3rem;
+}
+
 /* Dropdown menu */
 .category-dropdown {
     position: relative;
     display: flex;
     margin-top: 10px;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
 }
 
 .category-button {
