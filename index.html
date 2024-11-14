@@ -12,9 +12,14 @@
       <!-- Greeting message -->
             <p class="greeting">Hello!</p>
       <!-- Setting button -->
-       <button id="setting-button-inicio" class="setting-button" aria-label="Setting">
+       <button type="button" id="setting-button-inicio" class="setting-btn-category setting-button" aria-label="Setting">
         <img src="icons/setting-white.svg" alt="setting button">
        </button>
+       <ul id="setting-menu" class="setting-menu-options setting-menu-inicio">
+        <li data-category="rename-category" class="setting-option">Rename category</li>
+        <li data-category="add-category" class="setting-option">Add category</li>
+        <li data-category="delete-category" class="setting-option">Delete category</li>
+       </ul>
       </div>
             <!-- Categories section with buttons -->
             <div class="categories">
@@ -110,9 +115,14 @@
               <li onclick="selectCategory('Others')">Others</li>
             </ul>
             <!-- Setting button -->
-             <button id="setting-button-note" class="setting-button-note" aria-label="Setting">
+             <button type="button" id="setting-button-note" class="setting-btn-category setting-button-note" aria-label="Setting">
               <img src="icons/setting-white.svg" alt="setting button">
              </button>
+             <ul id="setting-menu" class="setting-menu-options setting-menu">
+               <li data-category="add-category" class="setting-option">Add category</li>
+               <li data-category="rename-category" class="setting-option">Rename category</li>
+              <li data-category="delete-category" class="setting-option">Delete category</li>
+             </ul>
           </div>
         </fieldset>
 

@@ -55,6 +55,7 @@ body, html {
 }
 
 .header {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -77,6 +78,37 @@ body, html {
 
 .setting-button img {
     width: 1.5rem;
+}
+
+
+
+.setting-menu-inicio {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.setting-menu-inicio li {
+    padding: 0.2rem;
+    text-align: center;
+    cursor: pointer;
+}
+.setting-menu-inicio li:hover{
+    background-color: var(--button-hover-color);
+}
+
+.show {
+    display: blok;
 }
 
 
@@ -349,6 +381,31 @@ form {
 
 .setting-button-note img {
     width: 1.3rem;
+}
+
+.setting-menu {
+    display: none;
+    position: absolute;
+    top: 5px;
+    left: 140px;
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.setting-menu li {
+    padding: 0.2rem;
+    text-align: center;
+    cursor: pointer;
+}
+.setting-menu li:hover{
+    background-color: var(--button-hover-color);
 }
 
 /* Dropdown menu */
