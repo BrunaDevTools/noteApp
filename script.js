@@ -248,6 +248,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
+    // Mostrar o esconder el menu de configuracion de las categorias
+    document.querySelectorAll('.setting-btn-category').forEach((button)=> {
+        button.addEventListener('click', ()=> {
+            document.querySelectorAll('.setting-menu-options').forEach((menu)=> {
+                menu.classList.toggle('show');
+            });
+        });
+    });
+    // Cerrar el menu cuando se hace click fuera de él
+    window.addEventListener('click', (event)=> {
+        const settingMenu = document.querySelectorAll('.setting-menu-options');
+        const settingButton = document.querySelectorAll('.setting-btn-category');
+        // Comprueba si el click fue fuera de cualquier boton y menu de configurar
+        const clickedOutsideButton = ![...settingButton].some(button => button.contains(event.target));
+        const clickedOutsideMenu = ![...settingMenu].some(menu => menu.contains(event.target));
+        if (clickedOutsideButton && clickedOutsideMenu) {
+            settingMenu.forEach((menu)=> {
+                menu.classList.remove('show');
+            });
+        }
+    });
+
     //Evento para seleccionar el color (marcando solo el color elegido)
     colorButtons.forEach(button => {
         button.addEventListener("click", () => {

@@ -54,11 +54,63 @@ body, html {
     overflow: hidden;
 }
 
+.header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .greeting {
     margin-left: 3px;
     font-size: 1.8rem;
     color: var(--text-color);
 }
+
+.setting-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.setting-button img {
+    width: 1.5rem;
+}
+
+
+
+.setting-menu-inicio {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.setting-menu-inicio li {
+    padding: 0.2rem;
+    text-align: center;
+    cursor: pointer;
+}
+.setting-menu-inicio li:hover{
+    background-color: var(--button-hover-color);
+}
+
+.show {
+    display: blok;
+}
+
 
 /* Style for the categories section */
 .categories {
@@ -312,11 +364,58 @@ form {
     gap: 15px;
 }
 
+/* Setting note button */
+.setting-button-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    padding: 15px;
+    border: none;
+    background-color: #333;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.setting-button-note img {
+    width: 1.3rem;
+}
+
+.setting-menu {
+    display: none;
+    position: absolute;
+    top: 5px;
+    left: 140px;
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.setting-menu li {
+    padding: 0.2rem;
+    text-align: center;
+    cursor: pointer;
+}
+.setting-menu li:hover{
+    background-color: var(--button-hover-color);
+}
+
 /* Dropdown menu */
 .category-dropdown {
     position: relative;
     display: flex;
     margin-top: 10px;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
 }
 
 .category-button {
