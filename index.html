@@ -154,6 +154,32 @@
       </form>
     </div>
 
+
+    <!-- Box to select category to rename -->
+     <div id="select-category-dialog" class="select-dialog hidden">
+      <div class="select-dialog-content">
+        <p>Select the category to rename:</p>
+        <ul id="category-checklist">
+          <!-- Categorias se agregan dinamicamente -->
+        </ul>
+        <button id="select-category-confirm" class="select-button">Confirm</button>
+        <button id="select-category-cancel" class="select-button">Cancel</button>
+      </div>
+     </div>
+
+    <!-- Box to rename category -->
+     <div id="rename-category-dialog" class="rename-dialog hidden">
+      <div class="rename-dialog-content">
+        <p>Enter the new name for the category:</p>
+        <input type="text" id="new-category-name" maxlength="30" placeholder="New category name:">
+        <div class="confirm-contain">
+          <button id="rename-category-confirm" class="rename-button">Rename</button>
+          <button id="rename-category-cancel" class="rename-button">Cancel</button>
+        </div>
+      </div>
+
+     </div>
+
     
 
   <script src="script.js" defer></script>  
