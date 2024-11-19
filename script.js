@@ -31,13 +31,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const renameCategoryConfirmButton = document.getElementById('rename-category-confirm');
     const renameCategoryCancelButton = document.getElementById('rename-category-cancel');
     let categoryToRename = null;
+    // Elementos del dialogo de eliminacion de categorias
+    const deleteCategoryDialog = document.getElementById('delete-category-dialog');
+    const deleteCategoryConfirmButton = document.getElementById('delete-category-confirm');
+    const deleteCategoryCancelButton = document.getElementById('delete-category-cancel');
+    let categoryToDelete = null;
 
-
-    // Array para almacenar las notas
-    let notes = JSON.parse(localStorage.getItem('notes')) || [];
+    let notes = JSON.parse(localStorage.getItem('notes')) || []; // Array para almacenar las notas
     let categories = ['All', 'To do', 'Important', 'Ideas', 'Buy', 'Gym routine', 'Others'];
     let noteToDeleteId = null;
     let currentNoteId = null; // ID de la nota actual
+    
 
     // Esconder la vista de la nota al cargar la pagina
     containerInicio.style.display = 'flex';
@@ -300,6 +304,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
+    // Rename category
     // Mostrar el dialogo de seleccion cuando se hace click en "Rename category"
     document.querySelectorAll('.setting-option[data-category="rename-category"]').forEach(button => {
         button.addEventListener('click', ()=> {
@@ -314,27 +319,49 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     categoryChecklist.appendChild(listItem);
                 }
             });
+            selectCategoryConfirmButton.setAttribute('data-action', 'rename'); // Indico que es para renombrar
             selectCategoryDialog.classList.remove('hidden');
         });
     });
 
-    // Confirmar seleccion de categoria
-    selectCategoryConfirmButton.addEventListener('click', ()=> {
-        const selectedCategory = document.querySelector('input[name="category"]:checked');
-        if (selectedCategory) {
-            categoryToRename = selectedCategory.value;
-            newCategoryNameInput.value = '' // Limpiar el input
-            selectCategoryDialog.classList.add('hidden');
-            renameCategoryDialog.classList.remove('hidden');
-        } else {
-            alert('Please select a category to rename.');
-        }
+    // Delete category
+    // Mostrar el dialogo de seleccion cuando se hace click en "Delete category"
+    document.querySelectorAll('.setting-option[data-category="delete-category"]').forEach(button => {
+        button.addEventListener('click', ()=> {
+            categoryChecklist.innerHTML = ''; // Limpio la lista de categorias
+            // Agregar categorias a la lista de verificacion con la cantidad de notas asociadas
+            categories.forEach(category => {
+                if (category !== 'All' && category !== 'Others') {
+                    const noteCount = notes.filter(note => note.category === category).length;
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<input type="radio" name="category" value="${category}"> ${category} (${noteCount} notes)`;
+                    categoryChecklist.appendChild(listItem);
+                }
+            });
+            selectCategoryConfirmButton.setAttribute('data-action', 'delete');
+            selectCategoryDialog.classList.remove('hidden');
+        });
     });
 
-    // Cancelar la seleccion de categoria
-    selectCategoryCancelButton.addEventListener('click', ()=> {
-        categoryToRename = null;
-        selectCategoryDialog.classList.add('hidden');
+    // Confirmar seleccion de categoria para eliminar
+    selectCategoryConfirmButton.addEventListener('click', () => {
+        const selectedCategory = document.querySelector('input[name="category"]:checked');
+        const action = selectCategoryConfirmButton.getAttribute('data-action');
+
+        if (selectedCategory) {
+            if (action === 'rename') {
+                categoryToRename = selectedCategory.value;
+                newCategoryNameInput.value = '';
+                selectCategoryDialog.classList.add('hidden');
+                renameCategoryDialog.classList.remove('hidden');
+            } else if (action === 'delete') {
+                categoryToDelete = selectedCategory.value;
+                selectCategoryDialog.classList.add('hidden');
+                deleteCategoryDialog.classList.remove('hidden');
+            }
+        } else {
+            alert('Please select a category.');
+        }
     });
 
     // Confirmar el cambio de nombre
@@ -372,6 +399,38 @@ document.addEventListener('DOMContentLoaded', (event) => {
         renameCategoryDialog.classList.add('hidden');
     });
 
+    // Confirmar eliminacion de categoria
+    deleteCategoryConfirmButton.addEventListener('click', ()=> {
+        if (categoryToDelete) {
+            notes = notes.filter(note => note.category !== categoryToDelete); // Eliminar todas las notas de la categoria
+            localStorage.setItem('notes', JSON.stringify(notes));
+
+            //Eliminar la categoria del array de categorias
+            categories = categories.filter(category => category !== categoryToDelete);
+            localStorage.setItem('categories', JSON.stringify(categories));
+
+            // Actualizar la visualizacion de notas, categorias y del menu desplegable de categorias
+            displayNotes();
+            displayCategories();
+            updateCategoryMenu();
+
+            categoryToDelete = null;
+            deleteCategoryDialog.classList.add('hidden');
+        }
+    });
+
+    // Cancelar la eliminacion de categoria
+    deleteCategoryCancelButton.addEventListener('click', () => {
+        categoryToDelete = null;
+        deleteCategoryDialog.classList.add('hidden');
+    });
+
+    // Cancelar seleccion de categoria
+    selectCategoryCancelButton.addEventListener('click', ()=> {
+        selectCategoryDialog.classList.add('hidden');
+    });
+
+    //Seleccionar color para la nota
     //Evento para seleccionar el color (marcando solo el color elegido)
     colorButtons.forEach(button => {
         button.addEventListener("click", () => {
