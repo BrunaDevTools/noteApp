@@ -36,9 +36,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const deleteCategoryConfirmButton = document.getElementById('delete-category-confirm');
     const deleteCategoryCancelButton = document.getElementById('delete-category-cancel');
     let categoryToDelete = null;
+    // Elementos del dialogo de agregar categorias - add category
+    const addCategoryButton = document.querySelectorAll('.setting-option[data-category="add-category"]');
+    const addCategoryDialog = document.getElementById('add-category-dialog');
+    const newAddCategoryNameInput = document.getElementById('new-category-name-input');
+    const addCategoryConfirmButton = document.getElementById('add-category-confirm');
+    const addCategoryCancelButton = document.getElementById('add-category-cancel');
 
     let notes = JSON.parse(localStorage.getItem('notes')) || []; // Array para almacenar las notas
-    let categories = ['All', 'To do', 'Important', 'Ideas', 'Buy', 'Gym routine', 'Others'];
+    let categories = JSON.parse(localStorage.getItem('categories')) || ['All', 'To do', 'Important', 'Ideas', 'Buy', 'Gym routine', 'Others'];
     let noteToDeleteId = null;
     let currentNoteId = null; // ID de la nota actual
     
@@ -133,8 +139,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Funcion para mostrar las categorias y añadir eventos click    
     function displayCategories() {
+        // Filtrar y ordenar categorias alfabeticamente, colocando "All" y "Others" al inicio
+            let orderedCategories = categories.filter(cat => cat !== 'All' && cat !== 'Others').sort();
+            orderedCategories.unshift('Others');
+            orderedCategories.unshift('All');
+
+            const categoriesContainer = document.querySelector('.categories');
             categoriesContainer.innerHTML = '';
-            categories.forEach((category) => {
+            orderedCategories.forEach(category => {
                 const categoryElement = document.createElement('button');
                 categoryElement.classList.add('category-filter');
                 categoryElement.setAttribute('data-category', category);
@@ -253,20 +265,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Funcion para actualizar el menu desplegable de categorias
     function updateCategoryMenu() {
-        categoryMenu.innerHTML = '';
-        categories.forEach(category => {
-            if (category !== 'All' && category !== 'Others') {
-                const listItem = document.createElement('li');
-                listItem.setAttribute('data-category', category);
-                listItem.innerHTML = category;
-                categoryMenu.appendChild(listItem);
+       const orderedCategories = categories.filter(cat => cat !== 'All' && cat !== 'Others').sort();
+       orderedCategories.unshift('Others');
+       orderedCategories.unshift('All');
 
-                listItem.addEventListener('click', ()=> {
-                    categoryButton.innerText = category;
-                    categoryMenu.classList.remove('show');
-                });
-            }
+       categoryMenu.innerHTML = '';
+       orderedCategories.forEach(category => {
+        const listItem = document.createElement('li');
+        listItem.setAttribute('data-category', category);
+        listItem.innerHTML = category;
+        categoryMenu.appendChild(listItem);
+
+        listItem.addEventListener('click', ()=> {
+            categoryButton.innerText = category;
+            categoryMenu.classList.remove('show');
         });
+       });
     }
 
     // Evento para desplegar el menu de categorias
@@ -448,6 +462,41 @@ document.addEventListener('DOMContentLoaded', (event) => {
         selectCategoryDialog.classList.add('hidden');
     });
 
+    // Add category
+    // Mostrar el dialogo de agregar categoria
+    addCategoryButton.forEach(button => {
+        button.addEventListener('click', ()=> {
+            newAddCategoryNameInput.value = '';
+            addCategoryDialog.classList.remove('hidden');
+        });
+    });
+
+    // Confirmar agregar nueva categoria
+    addCategoryConfirmButton.addEventListener('click', ()=> {
+        const newCategoryName = newAddCategoryNameInput.value.trim();
+        if (newCategoryName === '' || categories.includes(newCategoryName)){
+            alert('Invalid category name or name already exists.');
+            return;
+        }
+        // Agregar la nueva categoria a la lista de categorias
+        categories.push(newCategoryName);
+        localStorage.setItem('categories', JSON.stringify(categories));
+
+        // Actualizar el texto del boton de categoria si es una nota nueva
+        categoryButton.innerText = newCategoryName;
+
+        // Actualizar la visualizacion de categorias
+        displayCategories();
+        updateCategoryMenu();
+
+        addCategoryDialog.classList.add('hidden');
+    });
+
+    // Cancelar agregar nueva categoria
+    addCategoryCancelButton.addEventListener('click', ()=> {
+        addCategoryDialog.classList.add('hidden');
+    });
+
     //Seleccionar color para la nota
     //Evento para seleccionar el color (marcando solo el color elegido)
     colorButtons.forEach(button => {
@@ -462,4 +511,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     displayCategories();
     displayNotes(); // Mostrar las notas al cargar la pagina
+    updateCategoryMenu();
 });
