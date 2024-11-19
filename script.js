@@ -384,6 +384,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         categories = categories.map(category => category === categoryToRename ? newCategoryName : category);
         localStorage.setItem('categories', JSON.stringify(categories));
 
+        // Si la categoria renombrada es la misma que la de la nota actual, actualizar el texto del boton de categorias
+        if (categoryButton.innerText === categoryToRename) {
+            categoryButton.innerText = newCategoryName;
+        }
+
         // Actualizar la visualizacion de notas, categorias y menu desplegable de categorias
         displayNotes();
         displayCategories();
@@ -402,12 +407,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Confirmar eliminacion de categoria
     deleteCategoryConfirmButton.addEventListener('click', ()=> {
         if (categoryToDelete) {
-            notes = notes.filter(note => note.category !== categoryToDelete); // Eliminar todas las notas de la categoria
+            // Eliminar todas las notas de la categoria excepto la nota actual
+            notes = notes.filter(note => note.category !== categoryToDelete || note.id === currentNoteId); 
             localStorage.setItem('notes', JSON.stringify(notes));
 
             //Eliminar la categoria del array de categorias
             categories = categories.filter(category => category !== categoryToDelete);
             localStorage.setItem('categories', JSON.stringify(categories));
+
+            // Si la categoria eliminada es la misma que la de la nota actual, actualizar el texto del boton de categorias
+            if (categoryButton.innerText === categoryToDelete) {
+                categoryButton.innerText = 'Others';
+
+                //Actualizar la categoria de la nota actual a "Others"
+                const note = notes.find(note => note.id === currentNoteId);
+                if (note) {
+                    note.category = 'Others';
+                    localStorage.setItem('notes', JSON.stringify(notes));
+                }
+            }
 
             // Actualizar la visualizacion de notas, categorias y del menu desplegable de categorias
             displayNotes();
