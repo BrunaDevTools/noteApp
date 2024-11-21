@@ -20,6 +20,13 @@ Date: October 2024
     --highlight-bg-color-2: #CB80AB;
     --highlight-bg-color-3: #E6D9A2;
     --add-button-bg-color: #1b1b1b;
+    --confirm-button-bg-color: #ff0000;
+    --confirm-button-hover-bg-color: #cc0000;
+    --setting-button-bg-color:#333;
+    --setting-button-color: #ddd;
+    --selected-button-bg-color: #007bff;
+    --selected-button-hover-bg-color: #0056b3;
+    --text-area-border-color: #5b5b5ba0;
 }
 
 
@@ -108,7 +115,7 @@ body, html {
 }
 
 .show {
-    display: blok;
+    display: block;
 }
 
 
@@ -147,7 +154,7 @@ body, html {
 }
 
 .categories button:hover {
-    background-color: #838282;
+    background-color: var(--button-hover-color);
 }
 
 h1 {
@@ -267,7 +274,7 @@ h1 {
 }
 
 .confirm-button {
-    background-color: #ff0000;
+    background-color: var(--confirm-button-bg-color);
     color: var(--text-color);
     border: none;
     border-radius: 5px;
@@ -279,7 +286,7 @@ h1 {
 }
 
 .confirm-button:hover {
-    background-color: #cc0000;
+    background-color: var(--confirm-button-hover-bg-color);
 }
 
 /* Styles for the add new note button */
@@ -319,9 +326,6 @@ legend {
 
 .note-view {
     display: none;
-}
-
-.note-view {
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -340,8 +344,8 @@ legend {
 }
 
 .back-button {
-    background-color: #333;
-    color: #ddd;
+    background-color: var(--setting-button-bg-color);
+    color: var(--setting-button-color);
     font-size: 1.2rem;
     text-align: center;
     border-radius: 50%;
@@ -373,7 +377,7 @@ form {
     cursor: pointer;
     padding: 15px;
     border: none;
-    background-color: #333;
+    background-color: var(--setting-button-bg-color);
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -420,8 +424,8 @@ form {
 
 .category-button {
     padding: 10px;
-    background-color: #333;
-    color: #fff;
+    background-color: var(--setting-button-bg-color);
+    color: var(--setting-button-color);
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -504,7 +508,7 @@ form {
 .text-area {
     width: 100%;
     height: 100%;
-    border: 2px solid #5b5b5ba0;
+    border: 2px solid var(--text-area-border-color);
     border-radius: 7px;
     font-size: 1rem;
 }
@@ -543,7 +547,7 @@ form {
 }
 
 .select-button {
-    background-color: #007bff;
+    background-color: var(--selected-button-bg-color);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -553,7 +557,7 @@ form {
 }
 
 .select-button:hover {
-    background-color: #0056b3;
+    background-color: var(--selected-button-hover-bg-color);
 }
 
 #category-checklist {
@@ -617,7 +621,7 @@ form {
 }
 
 .rename-button {
-    background-color: #007bff;
+    background-color: var(--selected-button-bg-color);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -627,7 +631,7 @@ form {
 }
 
 .rename-button:hover {
-    background-color: #0056b3;
+    background-color: var(--selected-button-hover-bg-color);
 }
 
 /* Box to delete category */
@@ -667,7 +671,7 @@ form {
 }
 
 .delete-button-category {
-    background-color: #ff0000;
+    background-color: var(--confirm-button-bg-color);
     color: #fff;
     font-size: 0.9rem;
     font-weight: 300;
@@ -678,7 +682,7 @@ form {
     cursor: pointer;
 }
 .delete-button:hover {
-    background-color: #cc0000;
+    background-color: var(--confirm-button-hover-bg-color);
 }
 
 /* Box to add a new category */
@@ -724,7 +728,7 @@ display: none;
 }
 
 .add-button {
-    background-color: #007bff;
+    background-color: var(--selected-button-bg-color);
     color: #fff;
     font-size: 0.9rem;
     font-weight: 300;
@@ -735,5 +739,5 @@ display: none;
     cursor: pointer;
 }
 .add-button:hover {
-    background-color: #0056b3;
+    background-color: var(--selected-button-hover-bg-color);
 }

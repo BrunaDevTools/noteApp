@@ -103,9 +103,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return titleInput.value.trim() !== '' || textArea.value.trim() !== '';
     }
 
-    // Funcion para mostrar las notas en la pagina de inicio
+    // Function to display notes on the home page
     function displayNotes(filteredCategory = 'All') {
-        notesContainer.innerHTML = ''; // Limpiar el contenido antes de añadir las notas
+        notesContainer.innerHTML = ''; // Clear existing notes
         const notesToDisplay = filteredCategory === 'All' ? notes : notes.filter(note => note.category === filteredCategory);
        
         notesToDisplay.forEach((note) => {
@@ -123,12 +123,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                   `;
                   notesContainer.appendChild(noteElement);
 
-                  // Evento para abrir la nota al hacer click en la nota
+                  // Event to open the note on click
                   noteElement.addEventListener('click', () => {
                     openExistingNote(note.id);
                   });
 
-                  // Evento para eliminar la nota al hacer click en el icono basurero
+                  // Event to delete the note on click of the trash icon
                   noteElement.querySelector('.delete-button').addEventListener('click', (event)=> {
                     event.stopPropagation();
                     noteToDeleteId = note.id;
@@ -137,9 +137,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
         }
 
-    // Funcion para mostrar las categorias y añadir eventos click    
+    // Function to display categories and add click events    
     function displayCategories() {
-        // Filtrar y ordenar categorias alfabeticamente, colocando "All" y "Others" al inicio
+        // Filter and sort categories alphabetically, placing "All" and "Others" at the top
             let orderedCategories = categories.filter(cat => cat !== 'All' && cat !== 'Others').sort();
             orderedCategories.unshift('Others');
             orderedCategories.unshift('All');
@@ -152,7 +152,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 categoryElement.setAttribute('data-category', category);
                 categoryElement.innerText = category;
                 categoriesContainer.appendChild(categoryElement);
-    
+                
+                // Event to filter notes by category on click
                 categoryElement.addEventListener('click', ()=> {
                     const activeCategory = document.querySelector('.category-filter.active');
                     if (activeCategory) {
@@ -168,13 +169,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         displayNotes();
         updateCategoryMenu();
 
-        // Evento para eliminar la nota desde la vista de la nota
+        // Event to delete the note from the note view
         noteDeleteButton.addEventListener('click', () => {
             noteToDeleteId = currentNoteId;
             confirmDialog.classList.remove('hidden');
         });
 
-    // Funcion para eliminar la nota confirmada
+    // Function to delete the confirm note
     confirmYesButton.addEventListener('click', ()=> {
         if(noteToDeleteId !== null) {
             const index = notes.findIndex(note => note.id === noteToDeleteId);
@@ -191,13 +192,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
             confirmDialog.classList.add('hidden');
     });
 
-    // Funcion para cancelar la eliminacion de la nota
+    // Function to cancel note deletion
     confirmNoButton.addEventListener('click', ()=> {
         noteToDeleteId = null;
         confirmDialog.classList.add('hidden');
     });
 
-    // Funcion para abrir una nota existente
+    // Function to open an existing note
     function openExistingNote(id) {
         const note = notes.find(note => note.id === id);
         if (note) {
@@ -206,21 +207,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
         setSelectedColor(note.color);
         textArea.value = note.content;
         noteView.style.backgroundColor = note.color;
-        // Mover la nota al principio del array
+        // Move the note to the beginning of the array
         const index = notes.findIndex(note => note.id === id);
         if (index !== -1) {
             notes.splice(index, 1);
             notes.unshift(note);
             localStorage.setItem("notes", JSON.stringify(notes));
         }
-        currentNoteId = id; // Establecer el ID de la nota actual
+        currentNoteId = id; // Set the current note ID
         openNoteView();
         } else {
             alert('Note not found or has been deleted.');
         }
     }
 
-    // Funcion auxiliar para obtener el color seleccionado
+    // Helper function to get selected color
     function getSelectedColor() {
         let selectedColor = "";
         colorButtons.forEach(button => {
@@ -231,7 +232,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return selectedColor;
     }
 
-    // Funcion auxiliar para aplicar el color guardado
+    // Helper function to apply the saved color
     function setSelectedColor(color) {
         colorButtons.forEach(button => {
             if (button.getAttribute("data-color") === color) {
@@ -243,27 +244,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
         noteView.style.backgroundColor = color;
     }
 
-    // Funcion para resetear el formulario de la nota
+    // Function to reset the note form
     function resetForm() {
         titleInput.value = '';
         categoryButton.innerText = 'Category';
         colorButtons.forEach(button => button.classList.remove("selected"));
         textArea.value = '';
         noteView.style.backgroundColor = '';
-        currentNoteId = null; // Reseteo el ID de la nota
+        currentNoteId = null; // Reset the current note ID
     }
 
-    // Evento para el boton "add-note" que abre la vista de nota
+    // Event for "add-note" button to opne the note view
     addNoteButton.addEventListener('click', ()=> {
         resetForm();
-        currentNoteId = null; // Aseguro que no estoy editando una nota existente
+        currentNoteId = null; // Ensure we're not editing an existing note
         openNoteView();
     });
 
-    // Evento para el boton "back-button" que guarda y cierra la vista de nota
+    // Event for "back-button" to save and close the note view
     backButton.addEventListener('click', closeNoteView);
 
-    // Funcion para actualizar el menu desplegable de categorias
+    // Function to update the category dropdown menu
     function updateCategoryMenu() {
        const orderedCategories = categories.filter(cat => cat !== 'All' && cat !== 'Others').sort();
        orderedCategories.unshift('Others');
@@ -275,7 +276,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         listItem.setAttribute('data-category', category);
         listItem.innerHTML = category;
         categoryMenu.appendChild(listItem);
-
+        // Event to select a category from the dropdown
         listItem.addEventListener('click', ()=> {
             categoryButton.innerText = category;
             categoryMenu.classList.remove('show');
@@ -283,12 +284,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
        });
     }
 
-    // Evento para desplegar el menu de categorias
+    // Event to toggle the category dropdown menu
     categoryButton.addEventListener('click', () => {
         categoryMenu.classList.toggle("show");
     });
 
-    // Evento para seleccionar una categoria
+    // Event to select a category from the items
     categoryItems.forEach(item => {
         item.addEventListener('click', () => {
             categoryButton.innerText = item.innerText;
@@ -296,7 +297,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    // Mostrar o esconder el menu de configuracion de las categorias
+    // Show or hide the category setting menu
     document.querySelectorAll('.setting-btn-category').forEach((button)=> {
         button.addEventListener('click', ()=> {
             document.querySelectorAll('.setting-menu-options').forEach((menu)=> {
@@ -304,11 +305,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
         });
     });
-    // Cerrar el menu cuando se hace click fuera de él
+    // Close the menu when clicking outside of it
     window.addEventListener('click', (event)=> {
         const settingMenu = document.querySelectorAll('.setting-menu-options');
         const settingButton = document.querySelectorAll('.setting-btn-category');
-        // Comprueba si el click fue fuera de cualquier boton y menu de configurar
+        // Check if the click was outside of any setting button and menu
         const clickedOutsideButton = ![...settingButton].some(button => button.contains(event.target));
         const clickedOutsideMenu = ![...settingMenu].some(menu => menu.contains(event.target));
         if (clickedOutsideButton && clickedOutsideMenu) {
@@ -319,13 +320,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // Rename category
-    // Mostrar el dialogo de seleccion cuando se hace click en "Rename category"
+    // Show the selection dialog when clicking on "Rename category"
     document.querySelectorAll('.setting-option[data-category="rename-category"]').forEach(button => {
         button.addEventListener('click', ()=> {
-            // Limpiar la lista de categorias
+            // Clear the category checklist
             categoryChecklist.innerHTML = '';
 
-            // Agregar categorias a la lista de verificacion
+            // Add categories to the checklist
             categories.forEach(category => {
                 if (category !== 'All' && category !== 'Others') {
                     const listItem = document.createElement('li');
@@ -339,11 +340,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     // Delete category
-    // Mostrar el dialogo de seleccion cuando se hace click en "Delete category"
+    // Show the selection dialog when clicking on "Delete category"
     document.querySelectorAll('.setting-option[data-category="delete-category"]').forEach(button => {
         button.addEventListener('click', ()=> {
-            categoryChecklist.innerHTML = ''; // Limpio la lista de categorias
-            // Agregar categorias a la lista de verificacion con la cantidad de notas asociadas
+            categoryChecklist.innerHTML = ''; // Clear the category checklist
+            // Add categories to the checklist with the number of associated
             categories.forEach(category => {
                 if (category !== 'All' && category !== 'Others') {
                     const noteCount = notes.filter(note => note.category === category).length;
@@ -357,7 +358,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    // Confirmar seleccion de categoria para eliminar
+    // Confirm category selection for renaming or deleting
     selectCategoryConfirmButton.addEventListener('click', () => {
         const selectedCategory = document.querySelector('input[name="category"]:checked');
         const action = selectCategoryConfirmButton.getAttribute('data-action');
@@ -378,14 +379,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-    // Confirmar el cambio de nombre
+    // Confirm category rename
     renameCategoryConfirmButton.addEventListener('click', ()=> {
         const newCategoryName = newCategoryNameInput.value.trim();
         if (newCategoryName === '' || categories.includes(newCategoryName)) {
             alert('Invalid category name or name already exists.');
             return;
         }
-        // Actualizar la categoria en las notas
+        // Update category in notes
         notes = notes.map(note => {
             if (note.category === categoryToRename) {
                 note.category = newCategoryName;
@@ -394,16 +395,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
         localStorage.setItem('notes', JSON.stringify(notes));
 
-        // Actializar la lista de categorias
+        // Update category list
         categories = categories.map(category => category === categoryToRename ? newCategoryName : category);
         localStorage.setItem('categories', JSON.stringify(categories));
 
-        // Si la categoria renombrada es la misma que la de la nota actual, actualizar el texto del boton de categorias
+        // If the renamed category is the same as the current note category, update the category button text
         if (categoryButton.innerText === categoryToRename) {
             categoryButton.innerText = newCategoryName;
         }
 
-        // Actualizar la visualizacion de notas, categorias y menu desplegable de categorias
+        // Update note, category, and category menu display
         displayNotes();
         displayCategories();
         updateCategoryMenu();
@@ -412,28 +413,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
         renameCategoryDialog.classList.add('hidden');
     });
 
-    // Cancelar el cambio de nombre
+    // Cancel category rename
     renameCategoryCancelButton.addEventListener('click', ()=> {
         categoryToRename = null;
         renameCategoryDialog.classList.add('hidden');
     });
 
-    // Confirmar eliminacion de categoria
+    // Confirm category deletion
     deleteCategoryConfirmButton.addEventListener('click', ()=> {
         if (categoryToDelete) {
-            // Eliminar todas las notas de la categoria excepto la nota actual
+            // Delet all notes in the category except the current note
             notes = notes.filter(note => note.category !== categoryToDelete || note.id === currentNoteId); 
             localStorage.setItem('notes', JSON.stringify(notes));
 
-            //Eliminar la categoria del array de categorias
+            // Remove category from category array
             categories = categories.filter(category => category !== categoryToDelete);
             localStorage.setItem('categories', JSON.stringify(categories));
 
-            // Si la categoria eliminada es la misma que la de la nota actual, actualizar el texto del boton de categorias
+            // If the deleted category is the same as the current note category, update the category button text
             if (categoryButton.innerText === categoryToDelete) {
                 categoryButton.innerText = 'Others';
 
-                //Actualizar la categoria de la nota actual a "Others"
+                // Update the current note's category to "Others"
                 const note = notes.find(note => note.id === currentNoteId);
                 if (note) {
                     note.category = 'Others';
@@ -441,7 +442,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
 
-            // Actualizar la visualizacion de notas, categorias y del menu desplegable de categorias
+            // Update note, category, and category menu display
             displayNotes();
             displayCategories();
             updateCategoryMenu();
@@ -451,19 +452,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-    // Cancelar la eliminacion de categoria
+    // Cancel category deletion
     deleteCategoryCancelButton.addEventListener('click', () => {
         categoryToDelete = null;
         deleteCategoryDialog.classList.add('hidden');
     });
 
-    // Cancelar seleccion de categoria
+    // Cancel category selection
     selectCategoryCancelButton.addEventListener('click', ()=> {
         selectCategoryDialog.classList.add('hidden');
     });
 
-    // Add category
-    // Mostrar el dialogo de agregar categoria
+    // Add category--- 
+    // Show the add category dialog
     addCategoryButton.forEach(button => {
         button.addEventListener('click', ()=> {
             newAddCategoryNameInput.value = '';
@@ -471,45 +472,45 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    // Confirmar agregar nueva categoria
+    // Confirm adding a new category
     addCategoryConfirmButton.addEventListener('click', ()=> {
         const newCategoryName = newAddCategoryNameInput.value.trim();
         if (newCategoryName === '' || categories.includes(newCategoryName)){
             alert('Invalid category name or name already exists.');
             return;
         }
-        // Agregar la nueva categoria a la lista de categorias
+        // Add a new category to the category list
         categories.push(newCategoryName);
         localStorage.setItem('categories', JSON.stringify(categories));
 
-        // Actualizar el texto del boton de categoria si es una nota nueva
+        // Update the category button text if it's a new note
         categoryButton.innerText = newCategoryName;
 
-        // Actualizar la visualizacion de categorias
+        // Update category display
         displayCategories();
         updateCategoryMenu();
 
         addCategoryDialog.classList.add('hidden');
     });
 
-    // Cancelar agregar nueva categoria
+    // Cancel adding new category
     addCategoryCancelButton.addEventListener('click', ()=> {
         addCategoryDialog.classList.add('hidden');
     });
 
-    //Seleccionar color para la nota
-    //Evento para seleccionar el color (marcando solo el color elegido)
+    // Select color for the note
+    // Event to select the color (marking only the chosen color)
     colorButtons.forEach(button => {
         button.addEventListener("click", () => {
             colorButtons.forEach(btn => btn.classList.remove("selected"));
             button.classList.add("selected");
             const color = button.getAttribute("data-color");
-            noteView.style.backgroundColor = color; // Cambia el color de fondo
+            noteView.style.backgroundColor = color; // Change the background color
         });
     });
 
     
     displayCategories();
-    displayNotes(); // Mostrar las notas al cargar la pagina
+    displayNotes(); 
     updateCategoryMenu();
 });
